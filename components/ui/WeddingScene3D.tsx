@@ -10,7 +10,7 @@ function Particles({ progress }: { progress: number }) {
   const count = 1000;
   const particlesRef = useRef<THREE.Points>(null);
 
-  const [positions, colors] = useMemo(() => {
+  const particlesGeometry = useMemo(() => {
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
 
@@ -26,7 +26,11 @@ function Particles({ progress }: { progress: number }) {
       colors[i * 3 + 2] = color.b;
     }
 
-    return [positions, colors];
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    
+    return geometry;
   }, [count]);
 
   useFrame((state) => {
@@ -37,21 +41,7 @@ function Particles({ progress }: { progress: number }) {
   });
 
   return (
-    <points ref={particlesRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
-        />
-        <bufferAttribute
-          attach="attributes-color"
-          count={count}
-          array={colors}
-          itemSize={3}
-        />
-      </bufferGeometry>
+    <points ref={particlesRef} geometry={particlesGeometry}>
       <pointsMaterial
         size={0.05}
         vertexColors
