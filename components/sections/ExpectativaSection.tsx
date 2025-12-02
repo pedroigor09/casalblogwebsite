@@ -1,21 +1,22 @@
 'use client';
 
 import { ExpectativaRealidade } from '@/components/ui/ExpectativaRealidade';
+import { getImagePath } from '@/lib/utils/paths';
 
 const GALERIA_DATA = [
   {
-    expectativa: '/img1.jpg',
-    realidade: '/img2.jpg',
+    expectativa: getImagePath('img1.jpg'),
+    realidade: getImagePath('img2.jpg'),
     caption: '💑 Romance na Praia vs 😴 Realidade do Dia a Dia',
   },
   {
-    expectativa: '/img3.jpg',
-    realidade: '/img4.jpg',
+    expectativa: getImagePath('img3.jpg'),
+    realidade: getImagePath('img4.jpg'),
     caption: '✈️ Viagem dos Sonhos vs 🛏️ Preferimos Dormir',
   },
   {
-    expectativa: '/img5.jpg',
-    realidade: '/img6.jpg',
+    expectativa: getImagePath('img5.jpg'),
+    realidade: getImagePath('img6.jpg'),
     caption: '📸 Foto Perfeita vs 🤪 Nos Bastidores',
   },
 ];

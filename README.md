@@ -1,6 +1,105 @@
-# Site do Casal - Uma História Cinematográfica 🎬❤️
+# 💕 Site do Casal - Jefferson & Bruno
 
-Um website com animações cinematográficas estilo Rockstar Games, criado com Next.js, GSAP e Lenis para contar a história de um casal de forma épica e romântica.
+Site romântico e interativo criado com Next.js, GSAP e Tailwind CSS.
+
+## 🚀 Deploy no GitHub Pages
+
+### Configuração Inicial
+
+1. **Crie um repositório no GitHub** chamado `casalblogwebsite`
+
+2. **Configure GitHub Pages:**
+   - Vá em Settings → Pages
+   - Source: GitHub Actions
+
+3. **Push do código:**
+```bash
+git init
+git add .
+git commit -m "🎉 Initial commit"
+git branch -M main
+git remote add origin https://github.com/SEU-USUARIO/casalblogwebsite.git
+git push -u origin main
+```
+
+### Deploy Automático
+
+O deploy acontece automaticamente quando você faz push na branch `main`. O GitHub Actions vai:
+- Instalar dependências
+- Fazer build do Next.js
+- Deploy na GitHub Pages
+
+Após o deploy, o site estará disponível em:
+```
+https://SEU-USUARIO.github.io/casalblogwebsite/
+```
+
+## 🛠️ Desenvolvimento Local
+
+```bash
+# Instalar dependências
+npm install
+
+# Rodar em desenvolvimento
+npm run dev
+
+# Build para produção
+npm run build
+```
+
+## 📁 Estrutura de Pastas
+
+```
+├── app/                    # App Router do Next.js
+├── components/
+│   ├── sections/          # Seções da página
+│   ├── ui/                # Componentes reutilizáveis
+│   └── layout/            # Layout components
+├── lib/
+│   ├── constants/         # Constantes e conteúdo
+│   └── utils/             # Funções utilitárias
+├── public/                # Assets estáticos
+│   ├── img1.jpg - img15.jpg
+│   └── video1.mp4 - video7.mp4
+└── types/                 # TypeScript types
+```
+
+## ✨ Funcionalidades
+
+- 🎬 Hero com vídeo background
+- 📊 Dashboard com contadores animados (incluindo seguidores do Instagram!)
+- 📸 Galeria de polaroids
+- 🎮 Quiz interativo
+- 🎥 Dicionário do casal com vídeos
+- 📈 Placar da discórdia (votação)
+- 🚗 Barra de conquistas
+- 🔄 Expectativa vs Realidade
+- 🌓 Tema dual (versão dele/dele)
+
+## 🎨 Tecnologias
+
+- **Next.js 16** - Framework React
+- **TypeScript** - Type safety
+- **Tailwind CSS v4** - Estilização
+- **GSAP** - Animações cinematográficas
+- **Lenis** - Smooth scroll
+- **Canvas Confetti** - Efeitos de celebração
+
+## 📝 Personalização
+
+Para personalizar o conteúdo, edite os arquivos em `lib/constants/`:
+- `content.ts` - Textos, imagens e timeline
+- `stats.ts` - Estatísticas do dashboard
+- `features.ts` - Quiz e outras features
+
+## 🌐 Links
+
+- **Instagram Jefferson:** [@jeffersonline_](https://www.instagram.com/jeffersonline_/) - 196K seguidores
+- **Instagram Bruno:** [@brunocostav](https://www.instagram.com/brunocostav/) - 60.2K seguidores
+
+---
+
+Feito com 💕 e muito código
 
 ## 🎨 Características
 

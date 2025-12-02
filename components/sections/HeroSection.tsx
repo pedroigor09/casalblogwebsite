@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { gsap } from 'gsap';
 import { AnimatedText } from '@/components/ui/AnimatedText';
 import { HERO_CONTENT } from '@/lib/constants/content';
+import { getVideoPath, getImagePath } from '@/lib/utils/paths';
 
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
@@ -82,7 +83,7 @@ export function HeroSection() {
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
       >
-        <source src="/video1.mp4" type="video/mp4" />
+        <source src={getVideoPath('video1.mp4')} type="video/mp4" />
       </video>
 
       {/* Overlay escuro */}
@@ -141,7 +142,7 @@ export function HeroSection() {
         >
           <div className="w-64 h-64 md:w-96 md:h-96 bg-linear-to-br from-orange-200 via-coral-200 to-pink-200 relative overflow-hidden">
             <Image
-              src="/img1.jpg"
+              src={getImagePath('img1.jpg')}
               alt="Foto principal do casal"
               fill
               className="object-cover"

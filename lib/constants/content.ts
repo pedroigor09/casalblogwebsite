@@ -1,4 +1,5 @@
 import { TimelineEvent, PolaroidImage } from '@/types';
+import { getImagePath } from '@/lib/utils/paths';
 
 export const COUPLE_NAMES = {
   person1: 'Jefferson', 
@@ -38,63 +39,63 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
 export const GALLERY_IMAGES: PolaroidImage[] = [
   {
     id: '7',
-    src: '/img7.jpg',
+    src: getImagePath('img7.jpg'),
     alt: 'Momento especial',
     caption: 'Nosso amor ❤️',
     rotation: -5,
   },
   {
     id: '8',
-    src: '/img8.jpg',
+    src: getImagePath('img8.jpg'),
     alt: 'Momento especial',
     caption: 'Aventuras juntos ✈️',
     rotation: 3,
   },
   {
     id: '9',
-    src: '/img9.jpg',
+    src: getImagePath('img9.jpg'),
     alt: 'Momento especial',
     caption: 'Sempre felizes 😊',
     rotation: -2,
   },
   {
     id: '10',
-    src: '/img10.jpg',
+    src: getImagePath('img10.jpg'),
     alt: 'Momento especial',
     caption: 'Amor verdadeiro 💕',
     rotation: 4,
   },
   {
     id: '11',
-    src: '/img11.jpg',
+    src: getImagePath('img11.jpg'),
     alt: 'Momento especial',
     caption: 'Momentos únicos ✨',
     rotation: -3,
   },
   {
     id: '12',
-    src: '/img12.jpg',
+    src: getImagePath('img12.jpg'),
     alt: 'Momento especial',
     caption: 'Para sempre 🌟',
     rotation: 2,
   },
   {
     id: '13',
-    src: '/img13.jpg',
+    src: getImagePath('img13.jpg'),
     alt: 'Momento especial',
     caption: 'Juntos sempre 💑',
     rotation: -4,
   },
   {
     id: '14',
-    src: '/img14.jpg',
+    src: getImagePath('img14.jpg'),
     alt: 'Momento especial',
     caption: 'Felicidade completa 🌈',
     rotation: 5,
   },
   {
     id: '15',
-    src: '/img15.jpg',
+    src: getImagePath('img15.jpg'),
     alt: 'Momento especial',
     caption: 'Nosso paraíso 🏝️',
     rotation: -1,

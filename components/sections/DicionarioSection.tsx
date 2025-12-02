@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { getVideoPath } from '@/lib/utils/paths';
 
 interface DicionarioItem {
   frase: string;
@@ -13,25 +14,25 @@ const DICIONARIO: DicionarioItem[] = [
   {
     frase: 'Cheio de Frescura',
     emoji: '🙄',
-    video: '/video2.mp4',
+    video: getVideoPath('video2.mp4'),
     explicacao: 'Quando um dos dois não quer fazer nada e inventa mil desculpas!',
   },
   {
     frase: 'Vamos Economizar',
     emoji: '💰',
-    video: '/video3.mp4',
+    video: getVideoPath('video3.mp4'),
     explicacao: 'A frase mais falada antes de gastar tudo mesmo assim!',
   },
   {
     frase: 'Depois da DR',
     emoji: '😴',
-    video: '/video4.mp4',
+    video: getVideoPath('video4.mp4'),
     explicacao: 'Aquela paz depois da tempestade... ou não!',
   },
   {
     frase: 'Dia de Preguiça',
     emoji: '🛏️',
-    video: '/video5.mp4',
+    video: getVideoPath('video5.mp4'),
     explicacao: 'O nosso programa favorito: absolutamente nada!',
   },
 ];
