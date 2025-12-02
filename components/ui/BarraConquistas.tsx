@@ -1,128 +1,148 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { gsap } from 'gsap';
+import dynamic from 'next/dynamic';
+
+const WeddingScene3D = dynamic(
+  () => import('./WeddingScene3D').then((mod) => mod.WeddingScene3D),
+  { ssr: false }
+);
 
 export function BarraConquistas() {
   const [progress, setProgress] = useState(0);
-  const carRef = useRef<HTMLDivElement>(null);
-  const barRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Simular progresso (você pode conectar com dados reais)
-    const savedProgress = localStorage.getItem('car-progress') || '35';
+    setMounted(true);
+    // Carregar progresso salvo
+    const savedProgress = localStorage.getItem('wedding-progress') || '25';
     const currentProgress = parseInt(savedProgress);
     setProgress(currentProgress);
-
-    // Animar o carro
-    if (carRef.current) {
-      gsap.to(carRef.current, {
-        left: `${currentProgress}%`,
-        duration: 2,
-        ease: 'power2.out',
-      });
-    }
   }, []);
 
   const addProgress = () => {
     const newProgress = Math.min(progress + 5, 100);
     setProgress(newProgress);
-    localStorage.setItem('car-progress', newProgress.toString());
+    localStorage.setItem('wedding-progress', newProgress.toString());
 
-    // Animação de moedinhas
-    for (let i = 0; i < 5; i++) {
-      const coin = document.createElement('div');
-      coin.textContent = '🪙';
-      coin.className = 'fixed text-4xl pointer-events-none z-[300]';
-      coin.style.left = '50%';
-      coin.style.top = '50%';
-      document.body.appendChild(coin);
+    // Animação de corações e sparkles
+    for (let i = 0; i < 8; i++) {
+      const heart = document.createElement('div');
+      heart.textContent = ['💍', '💖', '✨', '🌟'][Math.floor(Math.random() * 4)];
+      heart.className = 'fixed text-4xl pointer-events-none z-[300]';
+      heart.style.left = '50%';
+      heart.style.top = '50%';
+      document.body.appendChild(heart);
 
-      gsap.to(coin, {
-        x: Math.random() * 400 - 200,
-        y: -500,
+      gsap.to(heart, {
+        x: Math.random() * 600 - 300,
+        y: -600 - Math.random() * 200,
         rotation: Math.random() * 720,
+        scale: Math.random() + 0.5,
         opacity: 0,
-        duration: 1.5,
+        duration: 2,
         delay: i * 0.1,
         ease: 'power2.out',
-        onComplete: () => coin.remove(),
+        onComplete: () => heart.remove(),
       });
     }
 
-    // Animar o carro
-    if (carRef.current) {
-      gsap.to(carRef.current, {
-        left: `${newProgress}%`,
-        duration: 1,
-        ease: 'power2.out',
+    // Efeito de confetti quando completar
+    if (newProgress === 100) {
+      import('canvas-confetti').then((confetti) => {
+        confetti.default({
+          particleCount: 150,
+          spread: 100,
+          origin: { y: 0.6 },
+          colors: ['#FFD700', '#FFA500', '#FF69B4', '#FF1493'],
+        });
       });
     }
   };
 
   return (
-    <div className="bg-gradient-to-r from-orange-100 to-pink-100 rounded-3xl p-8 shadow-xl">
+    <div className="bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 rounded-3xl p-8 shadow-2xl border border-pink-200">
       <div className="text-center mb-6">
-        <h3 className="text-3xl font-bold text-gray-900 mb-2">
-          🚗 Missão: O Carro dos Sonhos
+        <h3 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent mb-3">
+          💍 Missão: O Grande Dia
         </h3>
-        <p className="text-gray-600">
-          Ajude a gente a conquistar nosso carrinho! Cada clique conta 💪
+        <p className="text-gray-700 text-lg font-medium">
+          Cada clique nos aproxima do nosso dia especial! ✨
         </p>
       </div>
 
-      {/* Estrada com progresso */}
-      <div className="relative h-32 mb-6">
-        {/* Estrada */}
-        <div className="absolute bottom-8 left-0 right-0 h-12 bg-gray-400 rounded-full overflow-hidden shadow-inner">
-          {/* Linhas da estrada */}
-          <div className="absolute inset-0 flex items-center justify-around">
-            {[...Array(10)].map((_, i) => (
-              <div key={i} className="w-12 h-1 bg-white" />
+      {/* Cena 3D */}
+      {mounted && <WeddingScene3D progress={progress} />}
+
+      {/* Barra de progresso elegante */}
+      <div className="mt-8 mb-6">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            {progress}%
+          </span>
+          <span className="text-gray-600 font-semibold">Meta: 100%</span>
+        </div>
+        
+        <div className="relative h-8 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+          <div
+            className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 transition-all duration-1000 ease-out relative"
+            style={{ width: `${progress}%` }}
+          >
+            {/* Brilho animado */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-shimmer" />
+          </div>
+          
+          {/* Ícones de progresso */}
+          <div className="absolute inset-0 flex items-center justify-between px-2">
+            {[0, 25, 50, 75, 100].map((milestone) => (
+              <div
+                key={milestone}
+                className={`text-xl transition-all duration-500 ${
+                  progress >= milestone ? 'scale-125 filter drop-shadow-lg' : 'opacity-30'
+                }`}
+              >
+                {milestone === 100 ? '💑' : '💍'}
+              </div>
             ))}
           </div>
-
-          {/* Barra de progresso */}
-          <div
-            ref={barRef}
-            className="h-full bg-gradient-to-r from-green-400 to-emerald-500 transition-all duration-1000 ease-out"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-
-        {/* Carrinho animado */}
-        <div
-          ref={carRef}
-          className="absolute bottom-12 text-6xl transform -translate-x-1/2 transition-all duration-1000"
-          style={{ left: `${progress}%` }}
-        >
-          🚙
-        </div>
-
-        {/* Meta */}
-        <div className="absolute bottom-12 right-0 text-6xl">
-          🏁
         </div>
       </div>
 
-      {/* Informações */}
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-2xl font-bold text-gray-800">{progress}%</span>
-        <span className="text-gray-600">Meta: 100%</span>
-      </div>
-
-      {/* Botão de apoio */}
+      {/* Botão de apoio cinematográfico */}
       <button
         onClick={addProgress}
-        className="w-full py-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold rounded-xl hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
+        disabled={progress >= 100}
+        className={`w-full py-5 font-bold text-lg rounded-xl transition-all duration-300 shadow-xl relative overflow-hidden group ${
+          progress >= 100
+            ? 'bg-green-500 cursor-not-allowed'
+            : 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 hover:scale-105 hover:shadow-2xl'
+        }`}
       >
-        🪙 Contribuir (+5%) - Clique aqui!
+        <span className="relative z-10 text-white flex items-center justify-center gap-2">
+          {progress >= 100 ? (
+            <>
+              <span>🎉</span>
+              <span>MISSÃO CUMPRIDA!</span>
+              <span>🎉</span>
+            </>
+          ) : (
+            <>
+              <span>💖</span>
+              <span>Contribuir (+5%)</span>
+              <span>✨</span>
+            </>
+          )}
+        </span>
+        {progress < 100 && (
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20 group-hover:animate-shimmer" />
+        )}
       </button>
 
       {progress === 100 && (
-        <div className="mt-4 p-4 bg-green-100 rounded-xl text-center">
-          <p className="text-xl font-bold text-green-700">
-            🎉 MISSÃO CUMPRIDA! Obrigado! 🎉
+        <div className="mt-6 p-6 bg-gradient-to-r from-purple-100 via-pink-100 to-orange-100 rounded-2xl text-center border-2 border-pink-300 animate-pulse-slow">
+          <p className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent">
+            💝 Obrigado por fazer parte da nossa história! 💝
           </p>
         </div>
       )}
