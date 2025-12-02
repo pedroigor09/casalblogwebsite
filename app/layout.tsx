@@ -5,8 +5,6 @@ import { SmoothScrollProvider } from "@/components/layout/SmoothScrollProvider";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { FloatingHearts } from "@/components/ui/FloatingHearts";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { PlacarDiscordia } from "@/components/ui/PlacarDiscordia";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,8 +39,6 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <SmoothScrollProvider>
-            <ThemeToggle />
-            <PlacarDiscordia />
             <CustomCursor />
             <FloatingHearts />
             {children}

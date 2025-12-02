@@ -12,6 +12,7 @@ const WeddingScene3D = dynamic(
 export function BarraConquistas() {
   const [progress, setProgress] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [hasContributed, setHasContributed] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -19,12 +20,20 @@ export function BarraConquistas() {
     const savedProgress = localStorage.getItem('wedding-progress') || '25';
     const currentProgress = parseInt(savedProgress);
     setProgress(currentProgress);
+    
+    // Verificar se já contribuiu
+    const hasContributed = localStorage.getItem('wedding-contributed') === 'true';
+    setHasContributed(hasContributed);
   }, []);
 
   const addProgress = () => {
+    if (hasContributed) return;
+    
     const newProgress = Math.min(progress + 5, 100);
     setProgress(newProgress);
     localStorage.setItem('wedding-progress', newProgress.toString());
+    localStorage.setItem('wedding-contributed', 'true');
+    setHasContributed(true);
 
     // Animação de corações e sparkles
     for (let i = 0; i < 8; i++) {
@@ -112,10 +121,12 @@ export function BarraConquistas() {
       {/* Botão de apoio cinematográfico */}
       <button
         onClick={addProgress}
-        disabled={progress >= 100}
+        disabled={progress >= 100 || hasContributed}
         className={`w-full py-5 font-bold text-lg rounded-xl transition-all duration-300 shadow-xl relative overflow-hidden group ${
           progress >= 100
             ? 'bg-green-500 cursor-not-allowed'
+            : hasContributed
+            ? 'bg-gray-400 cursor-not-allowed'
             : 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 hover:scale-105 hover:shadow-2xl'
         }`}
       >
@@ -126,6 +137,12 @@ export function BarraConquistas() {
               <span>MISSÃO CUMPRIDA!</span>
               <span>🎉</span>
             </>
+          ) : hasContributed ? (
+            <>
+              <span>💝</span>
+              <span>Obrigado pela sua contribuição!</span>
+              <span>💝</span>
+            </>
           ) : (
             <>
               <span>💖</span>
@@ -134,7 +151,7 @@ export function BarraConquistas() {
             </>
           )}
         </span>
-        {progress < 100 && (
+        {progress < 100 && !hasContributed && (
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20 group-hover:animate-shimmer" />
         )}
       </button>
