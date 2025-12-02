@@ -114,24 +114,24 @@ export function HeroSection() {
 
       {/* Main content */}
       <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
-        <div className="mb-12 backdrop-blur-md bg-black/20 p-8 rounded-3xl">
+        <div className="mb-12">
           <AnimatedText
             text={HERO_CONTENT.title}
             type="split"
             delay={3}
-            className="text-6xl md:text-8xl font-black text-white mb-4 drop-shadow-[0_0_30px_rgba(255,107,0,0.9)] [text-shadow:_0_0_40px_rgb(255_107_0_/_80%),_0_0_80px_rgb(255_107_0_/_40%)]"
+            className="text-6xl md:text-8xl font-black text-white mb-4 [filter:drop-shadow(0_0_30px_rgba(255,107,0,0.6))_drop-shadow(0_0_60px_rgba(255,107,0,0.4))_drop-shadow(0_0_90px_rgba(255,107,0,0.2))]"
           />
           <AnimatedText
             text={HERO_CONTENT.subtitle}
             type="fadeUp"
             delay={4}
-            className="text-2xl md:text-4xl text-white font-bold drop-shadow-[0_0_20px_rgba(255,154,0,0.8)]"
+            className="text-2xl md:text-4xl text-white font-bold [filter:drop-shadow(0_0_20px_rgba(255,154,0,0.5))_drop-shadow(0_0_40px_rgba(255,154,0,0.3))]"
           />
           <AnimatedText
             text={HERO_CONTENT.date}
             type="fadeUp"
             delay={4.5}
-            className="text-xl md:text-2xl text-white font-semibold mt-4 drop-shadow-[0_0_15px_rgba(255,184,0,0.7)]"
+            className="text-xl md:text-2xl text-white font-semibold mt-4 [filter:drop-shadow(0_0_15px_rgba(255,184,0,0.5))_drop-shadow(0_0_30px_rgba(255,184,0,0.3))]"
           />
         </div>
 
