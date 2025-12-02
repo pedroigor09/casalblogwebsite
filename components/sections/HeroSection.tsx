@@ -114,7 +114,7 @@ export function HeroSection() {
 
       {/* Main content */}
       <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
-        <div className="mb-12">
+        <div className="mb-12 backdrop-blur-md bg-black/20 p-8 rounded-3xl">
           <AnimatedText
             text={HERO_CONTENT.title}
             type="split"

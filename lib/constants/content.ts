@@ -9,7 +9,7 @@ export const COUPLE_NAMES = {
 export const HERO_CONTENT = {
   title: 'Nossa História',
   subtitle: 'Uma jornada de amor e aventuras',
-  date: 'Desde [Data Especial]',
+  date: 'Desde 10/05/2019',
 };
 
 export const TIMELINE_EVENTS: TimelineEvent[] = [
