@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { getVideoPath } from '@/lib/utils/paths';
+import { gsap } from 'gsap';
 
 interface DicionarioItem {
   frase: string;
@@ -39,6 +40,19 @@ const DICIONARIO: DicionarioItem[] = [
 
 export function DicionarioSection() {
   const [selectedItem, setSelectedItem] = useState<DicionarioItem | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  useEffect(() => {
+    // Play video quando hover
+    if (hoveredIndex !== null && videoRefs.current[hoveredIndex]) {
+      videoRefs.current[hoveredIndex]?.play();
+    }
+  }, [hoveredIndex]);
+
+  const handleCardClick = (item: DicionarioItem) => {
+    setSelectedItem(item);
+  };
 
   return (
     <section className="relative py-32 px-4 bg-gradient-to-b from-amber-50 to-orange-50 overflow-hidden">
@@ -65,54 +79,113 @@ export function DicionarioSection() {
           </div>
         </div>
 
-        {/* Cards clicáveis */}
+        {/* Cards cinematográficos */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {DICIONARIO.map((item, index) => (
-            <button
+            <div
               key={index}
-              onClick={() => setSelectedItem(item)}
-              className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 border-2 border-orange-200 hover:border-orange-400"
+              className="group relative overflow-hidden rounded-3xl shadow-2xl hover:shadow-orange-500/50 transition-all duration-500 hover:scale-105 cursor-pointer"
+              onClick={() => handleCardClick(item)}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
             >
-              <div className="text-6xl mb-4">{item.emoji}</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
-                {item.frase}
-              </h3>
-              <p className="text-sm text-gray-600">Clique para ver o vídeo!</p>
-            </button>
+              {/* Vídeo de fundo */}
+              <video
+                ref={(el) => (videoRefs.current[index] = el)}
+                src={item.video}
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              
+              {/* Overlay com gradiente */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30 group-hover:from-black/70 transition-all duration-500" />
+              
+              {/* Brilho no hover */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/0 via-pink-500/0 to-purple-500/0 group-hover:from-orange-500/30 group-hover:via-pink-500/20 group-hover:to-purple-500/30 transition-all duration-700" />
+              
+              {/* Glassmorphism card */}
+              <div className="relative backdrop-blur-sm bg-white/10 p-8 h-80 flex flex-col justify-end border-2 border-white/20 group-hover:border-orange-400/50 transition-all duration-500">
+                {/* Emoji animado */}
+                <div className="text-7xl mb-4 transform group-hover:scale-125 group-hover:-rotate-12 transition-all duration-500">
+                  {item.emoji}
+                </div>
+                
+                {/* Texto */}
+                <h3 className="text-2xl font-black text-white mb-2 drop-shadow-lg">
+                  {item.frase}
+                </h3>
+                
+                <p className="text-sm text-white/80 font-medium mb-4">
+                  {item.explicacao}
+                </p>
+                
+                {/* Botão play */}
+                <div className="flex items-center gap-2 text-orange-300 font-bold group-hover:text-orange-200 transition-colors">
+                  <svg 
+                    className="w-6 h-6 animate-pulse" 
+                    fill="currentColor" 
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                  </svg>
+                  <span className="text-sm">Clique para ver o vídeo!</span>
+                </div>
+              </div>
+              
+              {/* Efeito de borda animada */}
+              <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute inset-0 rounded-3xl border-2 border-orange-400 animate-pulse" />
+              </div>
+            </div>
           ))}
         </div>
 
-        {/* Modal de vídeo */}
+        {/* Modal de vídeo cinematográfico */}
         {selectedItem && (
           <div
-            className="fixed inset-0 bg-black/90 z-[300] flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/95 backdrop-blur-xl z-[300] flex items-center justify-center p-4 animate-in fade-in duration-300"
             onClick={() => setSelectedItem(null)}
           >
             <div
-              className="relative max-w-4xl w-full bg-white rounded-3xl p-8"
+              className="relative max-w-5xl w-full"
               onClick={(e) => e.stopPropagation()}
             >
-              <button
-                className="absolute -top-4 -right-4 w-12 h-12 bg-red-500 text-white rounded-full text-3xl hover:bg-red-600 transition-colors shadow-lg"
-                onClick={() => setSelectedItem(null)}
-              >
-                ×
-              </button>
+              {/* Brilho decorativo */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 rounded-3xl blur-3xl opacity-30 animate-pulse" />
+              
+              {/* Container do modal */}
+              <div className="relative bg-gradient-to-br from-gray-900 to-black rounded-3xl p-8 shadow-2xl border-2 border-orange-500/30">
+                {/* Botão fechar */}
+                <button
+                  className="absolute -top-5 -right-5 w-14 h-14 bg-gradient-to-br from-red-500 to-red-600 text-white rounded-full text-3xl font-bold hover:scale-110 transition-transform shadow-2xl z-10"
+                  onClick={() => setSelectedItem(null)}
+                >
+                  ×
+                </button>
 
-              <div className="mb-6">
-                <h3 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                  <span className="text-5xl">{selectedItem.emoji}</span>
-                  {selectedItem.frase}
-                </h3>
-                <p className="text-gray-600 mt-2">{selectedItem.explicacao}</p>
+                {/* Header */}
+                <div className="mb-6">
+                  <h3 className="text-4xl font-black text-white flex items-center gap-4 mb-3">
+                    <span className="text-6xl animate-bounce">{selectedItem.emoji}</span>
+                    <span className="bg-gradient-to-r from-orange-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                      {selectedItem.frase}
+                    </span>
+                  </h3>
+                  <p className="text-gray-300 text-lg ml-20">{selectedItem.explicacao}</p>
+                </div>
+
+                {/* Player de vídeo */}
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-orange-500/20">
+                  <video
+                    src={selectedItem.video}
+                    controls
+                    autoPlay
+                    className="w-full"
+                  />
+                </div>
               </div>
-
-              <video
-                src={selectedItem.video}
-                controls
-                autoPlay
-                className="w-full rounded-2xl shadow-2xl"
-              />
             </div>
           </div>
         )}
