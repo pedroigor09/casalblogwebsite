@@ -146,6 +146,20 @@ export function TimelineSection() {
   const [unlockedCount, setUnlockedCount] = useState(1); // Começa com 1 desbloqueado
   const [completedIndices, setCompletedIndices] = useState<Set<number>>(new Set());
   const [hasStarted, setHasStarted] = useState(false);
+  const [parallaxOffset, setParallaxOffset] = useState({ top: 0, bottom: 0 });
+
+  // Atualizar parallax no scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setParallaxOffset({
+        top: window.scrollY * 0.3,
+        bottom: window.scrollY * -0.2,
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Calcular posições em curva (sinuosa)
   const calculatePositions = () => {
@@ -220,10 +234,15 @@ export function TimelineSection() {
     const from = positions[fromIndex];
     const to = positions[fromIndex + 1];
     
+    // Converter porcentagem para pixels
+    const svgWidth = svgRef.current.clientWidth;
+    const fromX = (from.x / 100) * svgWidth;
+    const toX = (to.x / 100) * svgWidth;
+    
     // Criar elemento de linha temporário para animação
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     const midY = (from.y + to.y) / 2;
-    const pathData = `M ${from.x} ${from.y} C ${from.x} ${midY}, ${to.x} ${midY}, ${to.x} ${to.y}`;
+    const pathData = `M ${fromX} ${from.y} C ${fromX} ${midY}, ${toX} ${midY}, ${toX} ${to.y}`;
     
     path.setAttribute('d', pathData);
     path.setAttribute('fill', 'none');
@@ -259,13 +278,13 @@ export function TimelineSection() {
         <div 
           className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-300 rounded-full blur-3xl"
           style={{
-            transform: `translateY(${typeof window !== 'undefined' ? window.scrollY * 0.3 : 0}px)`
+            transform: `translateY(${parallaxOffset.top}px)`
           }}
         />
         <div 
           className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-coral-300 rounded-full blur-3xl"
           style={{
-            transform: `translateY(${typeof window !== 'undefined' ? window.scrollY * -0.2 : 0}px)`
+            transform: `translateY(${parallaxOffset.bottom}px)`
           }}
         />
       </div>
