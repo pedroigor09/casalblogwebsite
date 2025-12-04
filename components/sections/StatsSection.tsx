@@ -46,12 +46,12 @@ export function StatsSection() {
         <div className="text-center mb-16">
           <div className="inline-block">
             <h2 ref={titleRef} className="text-5xl md:text-7xl font-black mb-4 bg-linear-to-r from-orange-600 via-pink-600 to-purple-600 bg-clip-text text-transparent relative">
-              Dashboard do Amor 📊
+              Momentos em Números ✨
               <div className="absolute -inset-1 bg-linear-to-r from-orange-600 via-pink-600 to-purple-600 opacity-20 blur-2xl -z-10" />
             </h2>
           </div>
           <p className="text-xl text-gray-700 font-medium mt-4">
-            Estatísticas da nossa relação (as importantes e as engraçadas)
+            Cada número conta uma parte da nossa história
           </p>
         </div>
 

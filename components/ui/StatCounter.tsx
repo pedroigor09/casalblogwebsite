@@ -76,43 +76,76 @@ export function StatCounter({ stat, index }: StatCounterProps) {
 
   const cardContent = (
     <>
-      {/* Gradient overlay on hover */}
-      <div className="absolute inset-0 bg-linear-to-br from-orange-500/0 via-pink-500/0 to-purple-500/0 group-hover:from-orange-500/5 group-hover:via-pink-500/5 group-hover:to-purple-500/5 transition-all duration-500" />
+      {/* Efeito de profundidade 3D */}
+      <div className="absolute inset-0 bg-linear-to-br from-orange-500/5 via-pink-500/5 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
       
-      {/* Shine effect */}
-      <div className="absolute -inset-1 bg-linear-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+      {/* Shine effect diagonal */}
+      <div className="absolute -inset-1 bg-linear-to-r from-transparent via-white/40 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000 rounded-3xl" />
       
-      <div className="relative">
-        {/* Icon com efeito 3D */}
-        <div className="text-7xl mb-4 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 filter drop-shadow-2xl">
-          {stat.icon}
+      {/* Brilho de fundo pulsante */}
+      <div className="absolute -inset-2 bg-linear-to-r from-orange-400/20 via-pink-400/20 to-purple-400/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-opacity duration-500" />
+      
+      <div className="relative z-10">
+        {/* Icon 3D com sombra */}
+        <div className="relative mb-6">
+          {/* Sombra do ícone */}
+          <div className="absolute inset-0 text-7xl blur-2xl opacity-30 scale-110 group-hover:scale-125 transition-transform duration-500">
+            {stat.icon}
+          </div>
+          {/* Ícone principal */}
+          <div className="relative text-7xl transform group-hover:scale-125 group-hover:-rotate-6 transition-all duration-500 filter drop-shadow-2xl">
+            {stat.icon}
+          </div>
         </div>
         
-        {/* Números com gradiente */}
-        <div className="text-5xl font-black mb-2 bg-linear-to-br from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent">
-          {stat.instagram ? formatNumber(count) : count.toLocaleString()}
-          {stat.suffix && (
-            <span className="text-2xl bg-linear-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent ml-1 font-bold">
-              {stat.suffix}
+        {/* Container dos números com efeito 3D */}
+        <div className="relative">
+          {/* Sombra dos números */}
+          <div className="absolute inset-0 text-6xl font-black blur-md opacity-20 transform translate-y-1">
+            {stat.instagram ? formatNumber(count) : count.toLocaleString()}
+          </div>
+          
+          {/* Números principais */}
+          <div className="relative text-6xl font-black mb-3 transform group-hover:scale-110 transition-transform duration-500">
+            <span className="bg-linear-to-br from-gray-900 via-gray-800 to-gray-600 bg-clip-text text-transparent">
+              {stat.instagram ? formatNumber(count) : count.toLocaleString()}
             </span>
-          )}
+            {stat.suffix && (
+              <span className="text-3xl bg-linear-to-r from-orange-500 via-pink-500 to-purple-500 bg-clip-text text-transparent ml-2 font-black animate-pulse">
+                {stat.suffix}
+              </span>
+            )}
+          </div>
         </div>
         
-        {/* Label com efeito */}
-        <div className="text-base text-gray-600 font-semibold tracking-wide uppercase">
-          {stat.label}
+        {/* Label com efeito glassmorphism */}
+        <div className="inline-block px-4 py-2 bg-white/60 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-lg">
+          <div className="text-sm text-gray-700 font-bold tracking-wider uppercase">
+            {stat.label}
+          </div>
         </div>
 
-        {/* Badge Instagram */}
+        {/* Badge Instagram redesenhado */}
         {stat.instagram && (
-          <div className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-pink-600 bg-pink-100 px-3 py-1 rounded-full">
-            <span>🔥</span> SEGUE LÁ
+          <div className="mt-4 inline-flex items-center gap-2 text-sm font-black text-white bg-linear-to-r from-pink-500 to-purple-500 px-5 py-2 rounded-full shadow-lg group-hover:shadow-pink-500/50 transition-shadow duration-300">
+            <span className="animate-pulse">🔥</span> 
+            <span>SEGUE LÁ</span>
           </div>
         )}
       </div>
       
-      {/* Corner decoration */}
-      <div className="absolute top-0 right-0 w-20 h-20 bg-linear-to-br from-orange-400/10 to-pink-400/10 rounded-bl-full" />
+      {/* Decoração de canto com gradiente animado */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-orange-400/20 via-pink-400/20 to-purple-400/20 rounded-bl-[100px] group-hover:scale-110 transition-transform duration-500" />
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-linear-to-tr from-orange-400/10 via-pink-400/10 to-purple-400/10 rounded-tr-[80px] group-hover:scale-110 transition-transform duration-500" />
+      
+      {/* Borda luminosa */}
+      <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <div className="absolute inset-0 rounded-3xl border-2 border-transparent bg-linear-to-r from-orange-400 via-pink-400 to-purple-400 bg-clip-border animate-pulse" style={{
+          WebkitMask: 'linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude'
+        }} />
+      </div>
     </>
   );
 
@@ -123,7 +156,10 @@ export function StatCounter({ stat, index }: StatCounterProps) {
         target="_blank"
         rel="noopener noreferrer"
         ref={counterRef as React.RefObject<HTMLAnchorElement>}
-        className="group relative bg-linear-to-br from-white to-gray-50 rounded-3xl p-8 shadow-2xl hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] transition-all duration-500 hover:scale-105 border border-gray-200/50 overflow-hidden backdrop-blur-sm block"
+        className="group relative bg-linear-to-br from-white via-gray-50 to-white rounded-3xl p-10 shadow-2xl hover:shadow-[0_30px_80px_-15px_rgba(251,146,60,0.4)] transition-all duration-700 hover:scale-110 hover:-rotate-2 border-2 border-gray-100/50 overflow-hidden backdrop-blur-sm block transform-gpu perspective-1000"
+        style={{
+          transformStyle: 'preserve-3d',
+        }}
       >
         {cardContent}
       </a>
@@ -133,7 +169,10 @@ export function StatCounter({ stat, index }: StatCounterProps) {
   return (
     <div
       ref={counterRef as React.RefObject<HTMLDivElement>}
-      className="group relative bg-linear-to-br from-white to-gray-50 rounded-3xl p-8 shadow-2xl hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] transition-all duration-500 hover:scale-105 border border-gray-200/50 overflow-hidden backdrop-blur-sm"
+      className="group relative bg-linear-to-br from-white via-gray-50 to-white rounded-3xl p-10 shadow-2xl hover:shadow-[0_30px_80px_-15px_rgba(251,146,60,0.4)] transition-all duration-700 hover:scale-110 hover:-rotate-2 border-2 border-gray-100/50 overflow-hidden backdrop-blur-sm transform-gpu perspective-1000"
+      style={{
+        transformStyle: 'preserve-3d',
+      }}
     >
       {cardContent}
     </div>
