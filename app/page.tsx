@@ -5,7 +5,7 @@ import { ExpectativaSection } from "@/components/sections/ExpectativaSection";
 import { DicionarioSection } from "@/components/sections/DicionarioSection";
 import { TimelineSection } from "@/components/sections/TimelineSection";
 import { GallerySection } from "@/components/sections/GallerySection";
-import { QuizSection } from "@/components/sections/QuizSection";
+import { ParallaxGallerySection } from "@/components/sections/ParallaxGallerySection";
 import { Footer } from "@/components/layout/Footer";
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
       <DicionarioSection />
       <TimelineSection />
       <GallerySection />
-      <QuizSection />
+      <ParallaxGallerySection />
       <Footer />
     </main>
   );
