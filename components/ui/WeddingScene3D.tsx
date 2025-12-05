@@ -97,10 +97,27 @@ function Scene({ progress }: { progress: number }) {
 
 export function WeddingScene3D({ progress }: { progress: number }) {
   return (
-    <div className="w-full h-[400px] rounded-2xl overflow-hidden bg-gradient-to-br from-purple-900 via-pink-900 to-orange-900">
+    <div className="w-full h-[400px] rounded-2xl overflow-hidden relative">
+      {/* Gradiente de fundo romântico */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(255, 107, 153, 0.3) 0%, rgba(147, 51, 234, 0.4) 50%, rgba(236, 72, 153, 0.5) 100%), linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+          filter: 'blur(40px)',
+          transform: 'scale(1.2)',
+          zIndex: 0
+        }}
+      />
+      
+      <div className="absolute inset-0 bg-linear-to-br from-purple-900/40 via-pink-900/30 to-orange-900/40" style={{ zIndex: 1 }} />
+      
       <Canvas
         camera={{ position: [0, 0, 8], fov: 50 }}
         gl={{ antialias: true, alpha: true }}
+        style={{
+          position: 'relative',
+          zIndex: 2
+        }}
       >
         <Suspense fallback={null}>
           <Scene progress={progress} />

@@ -39,12 +39,6 @@ export function WeddingRing({ position, rotationSpeed = 1, color = '#FFD700' }: 
     return new THREE.ExtrudeGeometry(shape, extrudeSettings);
   }, []);
 
-  // Criar geometria do diamante
-  const diamondGeometry = useMemo(() => {
-    const geometry = new THREE.OctahedronGeometry(0.2, 0);
-    return geometry;
-  }, []);
-
   useFrame((state) => {
     if (ringRef.current) {
       ringRef.current.rotation.y += 0.01 * rotationSpeed;
@@ -59,33 +53,11 @@ export function WeddingRing({ position, rotationSpeed = 1, color = '#FFD700' }: 
         <mesh geometry={ringGeometry} rotation={[Math.PI / 2, 0, 0]}>
           <meshStandardMaterial
             color={color}
-            metalness={0.9}
-            roughness={0.1}
-            envMapIntensity={1.5}
+            metalness={1}
+            roughness={0.15}
+            envMapIntensity={2}
           />
         </mesh>
-
-        {/* Diamante no topo */}
-        <mesh geometry={diamondGeometry} position={[0, 1, 0]}>
-          <MeshTransmissionMaterial
-            backside
-            samples={16}
-            resolution={512}
-            transmission={1}
-            roughness={0}
-            thickness={0.5}
-            ior={2.4}
-            chromaticAberration={0.1}
-            anisotropy={1}
-            distortion={0.1}
-            distortionScale={0.5}
-            temporalDistortion={0.2}
-            color="#ffffff"
-          />
-        </mesh>
-
-        {/* Brilho adicional */}
-        <pointLight position={[0, 1, 0]} intensity={2} distance={3} color="#ffffff" />
       </group>
     </Float>
   );

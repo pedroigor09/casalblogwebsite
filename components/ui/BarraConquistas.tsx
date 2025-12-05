@@ -1,168 +1,255 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { gsap } from 'gsap';
-import dynamic from 'next/dynamic';
+import { useRef } from 'react';
+import Image from 'next/image';
+import { getImagePath } from '@/lib/utils/paths';
 
-const WeddingScene3D = dynamic(
-  () => import('./WeddingScene3D').then((mod) => mod.WeddingScene3D),
-  { ssr: false }
-);
+interface GalleryImage {
+  src: string;
+  alt: string;
+  caption: string;
+  parallaxClass: string;
+}
+
+const GALLERY_IMAGES: GalleryImage[] = [
+  {
+    src: getImagePath('img7.jpg'),
+    alt: 'Momento especial 1',
+    caption: 'Nosso primeiro café juntos ☕',
+    parallaxClass: 'slower',
+  },
+  {
+    src: getImagePath('img8.jpg'),
+    alt: 'Momento especial 2',
+    caption: 'Aventura na praia 🏖️',
+    parallaxClass: 'faster',
+  },
+  {
+    src: getImagePath('img9.jpg'),
+    alt: 'Momento especial 3',
+    caption: 'Pôr do sol perfeito 🌅',
+    parallaxClass: 'slower vertical',
+  },
+  {
+    src: getImagePath('img10.jpg'),
+    alt: 'Momento especial 4',
+    caption: 'Jantar romântico 🍝',
+    parallaxClass: 'slower slower-down',
+  },
+  {
+    src: getImagePath('img11.jpg'),
+    alt: 'Momento especial 5',
+    caption: 'Nossa primeira viagem ✈️',
+    parallaxClass: '',
+  },
+  {
+    src: getImagePath('img12.jpg'),
+    alt: 'Momento especial 6',
+    caption: 'Dia de aventura 🎢',
+    parallaxClass: 'slower',
+  },
+  {
+    src: getImagePath('img13.jpg'),
+    alt: 'Momento especial 7',
+    caption: 'Momento fofo 💕',
+    parallaxClass: 'faster1',
+  },
+  {
+    src: getImagePath('img14.jpg'),
+    alt: 'Momento especial 8',
+    caption: 'Diversão garantida 🎉',
+    parallaxClass: 'slower slower2',
+  },
+  {
+    src: getImagePath('img15.jpg'),
+    alt: 'Momento especial 9',
+    caption: 'Sorriso sincero 😊',
+    parallaxClass: '',
+  },
+  {
+    src: getImagePath('img1.jpg'),
+    alt: 'Momento especial 10',
+    caption: 'Amor verdadeiro 💖',
+    parallaxClass: 'slower',
+  },
+  {
+    src: getImagePath('img2.jpg'),
+    alt: 'Momento especial 11',
+    caption: 'Juntos para sempre ∞',
+    parallaxClass: 'slower last',
+  },
+];
 
 export function BarraConquistas() {
-  const [progress, setProgress] = useState(0);
-  const [mounted, setMounted] = useState(false);
-  const [hasContributed, setHasContributed] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    // Carregar progresso salvo
-    const savedProgress = localStorage.getItem('wedding-progress') || '25';
-    const currentProgress = parseInt(savedProgress);
-    setProgress(currentProgress);
-    
-    // Verificar se já contribuiu
-    const hasContributed = localStorage.getItem('wedding-contributed') === 'true';
-    setHasContributed(hasContributed);
-  }, []);
-
-  const addProgress = () => {
-    if (hasContributed) return;
-    
-    const newProgress = Math.min(progress + 5, 100);
-    setProgress(newProgress);
-    localStorage.setItem('wedding-progress', newProgress.toString());
-    localStorage.setItem('wedding-contributed', 'true');
-    setHasContributed(true);
-
-    // Animação de corações e sparkles
-    for (let i = 0; i < 8; i++) {
-      const heart = document.createElement('div');
-      heart.textContent = ['💍', '💖', '✨', '🌟'][Math.floor(Math.random() * 4)];
-      heart.className = 'fixed text-4xl pointer-events-none z-[300]';
-      heart.style.left = '50%';
-      heart.style.top = '50%';
-      document.body.appendChild(heart);
-
-      gsap.to(heart, {
-        x: Math.random() * 600 - 300,
-        y: -600 - Math.random() * 200,
-        rotation: Math.random() * 720,
-        scale: Math.random() + 0.5,
-        opacity: 0,
-        duration: 2,
-        delay: i * 0.1,
-        ease: 'power2.out',
-        onComplete: () => heart.remove(),
-      });
-    }
-
-    // Efeito de confetti quando completar
-    if (newProgress === 100) {
-      import('canvas-confetti').then((confetti) => {
-        confetti.default({
-          particleCount: 150,
-          spread: 100,
-          origin: { y: 0.6 },
-          colors: ['#FFD700', '#FFA500', '#FF69B4', '#FF1493'],
-        });
-      });
-    }
-  };
-
   return (
-    <div className="bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 rounded-3xl p-8 shadow-2xl border border-pink-200">
-      <div className="text-center mb-6">
-        <h3 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent mb-3">
-          💍 Missão: O Grande Dia
-        </h3>
-        <p className="text-gray-700 text-lg font-medium">
-          Cada clique nos aproxima do nosso dia especial! ✨
-        </p>
-      </div>
-
-      {/* Cena 3D */}
-      {mounted && <WeddingScene3D progress={progress} />}
-
-      {/* Barra de progresso elegante */}
-      <div className="mt-8 mb-6">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            {progress}%
-          </span>
-          <span className="text-gray-600 font-semibold">Meta: 100%</span>
-        </div>
-        
-        <div className="relative h-8 bg-gray-200 rounded-full overflow-hidden shadow-inner">
-          <div
-            className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 transition-all duration-1000 ease-out relative"
-            style={{ width: `${progress}%` }}
-          >
-            {/* Brilho animado */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-shimmer" />
-          </div>
-          
-          {/* Ícones de progresso */}
-          <div className="absolute inset-0 flex items-center justify-between px-2">
-            {[0, 25, 50, 75, 100].map((milestone) => (
-              <div
-                key={milestone}
-                className={`text-xl transition-all duration-500 ${
-                  progress >= milestone ? 'scale-125 filter drop-shadow-lg' : 'opacity-30'
-                }`}
-              >
-                {milestone === 100 ? '💑' : '💍'}
+    <section className="relative bg-linear-to-b from-orange-50 via-peach-50 to-pink-50 w-full">
+      {/* Container externo */}
+      <div className="external">
+        <div className="horizontal-scroll-wrapper">
+          {GALLERY_IMAGES.map((image, index) => (
+            <div key={index} className={`img-wrapper ${image.parallaxClass}`}>
+              <div className="gallery-card">
+                <div className="image-container">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    width={600}
+                    height={700}
+                    className="gallery-image"
+                    unoptimized
+                  />
+                </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Botão de apoio cinematográfico */}
-      <button
-        onClick={addProgress}
-        disabled={progress >= 100 || hasContributed}
-        className={`w-full py-5 font-bold text-lg rounded-xl transition-all duration-300 shadow-xl relative overflow-hidden group ${
-          progress >= 100
-            ? 'bg-green-500 cursor-not-allowed'
-            : hasContributed
-            ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 hover:scale-105 hover:shadow-2xl'
-        }`}
-      >
-        <span className="relative z-10 text-white flex items-center justify-center gap-2">
-          {progress >= 100 ? (
-            <>
-              <span>🎉</span>
-              <span>MISSÃO CUMPRIDA!</span>
-              <span>🎉</span>
-            </>
-          ) : hasContributed ? (
-            <>
-              <span>💝</span>
-              <span>Obrigado pela sua contribuição!</span>
-              <span>💝</span>
-            </>
-          ) : (
-            <>
-              <span>💖</span>
-              <span>Contribuir (+5%)</span>
-              <span>✨</span>
-            </>
-          )}
-        </span>
-        {progress < 100 && !hasContributed && (
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20 group-hover:animate-shimmer" />
-        )}
-      </button>
+      <style jsx>{`
+        /* Hide scrollbar */
+        ::-webkit-scrollbar {
+          width: 1px;
+          height: 1px;
+        }
 
-      {progress === 100 && (
-        <div className="mt-6 p-6 bg-gradient-to-r from-purple-100 via-pink-100 to-orange-100 rounded-2xl text-center border-2 border-pink-300 animate-pulse-slow">
-          <p className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent">
-            💝 Obrigado por fazer parte da nossa história! 💝
-          </p>
-        </div>
-      )}
-    </div>
+        ::-webkit-scrollbar-button {
+          width: 1px;
+          height: 1px;
+        }
+
+        .external {
+          overflow: hidden;
+          height: 100vh;
+          width: 100vw;
+          position: relative;
+        }
+
+        .horizontal-scroll-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          width: 100vh;
+          transform: rotate(-90deg) translate3d(0, -100vh, 0);
+          transform-origin: right top;
+          overflow-y: auto;
+          overflow-x: hidden;
+          padding: 0;
+          padding-left: 5vh;
+          height: 100vw;
+          perspective: 1px;
+          transform-style: preserve-3d;
+          padding-bottom: 10rem;
+          scroll-behavior: smooth;
+        }
+
+        .img-wrapper {
+          transform: rotate(90deg);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 40vh;
+          transform-origin: 50% 50%;
+          transform: rotate(90deg) translateZ(0.1px) scale(0.9) translateX(0px) translateY(-3vh);
+          transition: 1s ease;
+        }
+
+        .img-wrapper:hover {
+          min-height: 65vh;
+        }
+
+        /* Parallax variations */
+        .slower {
+          transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(0%) translateY(-10vh);
+        }
+
+        .slower1 {
+          transform: rotate(90deg) translateZ(-0.25px) scale(1.05) translateX(0%) translateY(8vh);
+        }
+
+        .slower2 {
+          transform: rotate(90deg) translateZ(-0.3px) scale(1.3) translateX(0%) translateY(2vh);
+        }
+
+        .slower-down {
+          transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(0%) translateY(16vh);
+        }
+
+        .faster {
+          transform: rotate(90deg) translateZ(0.15px) scale(0.8) translateX(0%) translateY(14vh);
+        }
+
+        .faster1 {
+          transform: rotate(90deg) translateZ(0.05px) scale(0.8) translateX(0%) translateY(10vh);
+        }
+
+        .fastest {
+          transform: rotate(90deg) translateZ(0.22px) scale(0.7) translateX(-10vh) translateY(-15vh);
+        }
+
+        .vertical {
+          transform: rotate(90deg) translateZ(-0.15px) scale(1.15) translateX(0%) translateY(0%);
+        }
+
+        .last {
+          transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(25vh) translateY(-8vh);
+        }
+
+        .gallery-card {
+          overflow: hidden;
+          display: block;
+          padding: 1.5vh;
+          background: #fff;
+          box-shadow: 
+            0 10px 50px rgba(255, 107, 0, 0.2),
+            0 4px 20px rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+          transition: all 0.5s ease;
+        }
+
+        .img-wrapper:hover .gallery-card {
+          box-shadow: 
+            0 20px 60px rgba(255, 107, 0, 0.3),
+            0 8px 30px rgba(0, 0, 0, 0.15);
+          transform: translateY(-4px);
+        }
+
+        .image-container {
+          position: relative;
+          overflow: hidden;
+          border-radius: 4px;
+        }
+
+        .gallery-image {
+          max-width: 45vh;
+          max-height: 50vh;
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+          transition: all 0.5s ease;
+          vertical-align: top;
+          filter: saturate(80%) sepia(10%) hue-rotate(5deg);
+        }
+
+        .img-wrapper:hover .gallery-image {
+          filter: none;
+          transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+          .horizontal-scroll-wrapper {
+            padding-bottom: 5rem;
+          }
+
+          .gallery-image {
+            max-width: 35vh;
+            max-height: 40vh;
+          }
+
+          .img-wrapper:hover {
+            min-height: 50vh;
+          }
+        }
+      `}</style>
+    </section>
   );
 }
