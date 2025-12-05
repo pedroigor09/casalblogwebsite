@@ -7,17 +7,17 @@ const GALERIA_DATA = [
   {
     expectativa: getImagePath('img1.jpg'),
     realidade: getImagePath('img2.jpg'),
-    caption: '💑 Romance na Praia vs 😴 Realidade do Dia a Dia',
+    caption: '🔑 Primeira Vez vs 🖕 Dias Normais',
   },
   {
     expectativa: getImagePath('img3.jpg'),
     realidade: getImagePath('img4.jpg'),
-    caption: '✈️ Viagem dos Sonhos vs 🛏️ Preferimos Dormir',
+    caption: '💃 Festa Glamourosa vs 😴 Só Queremos Netflix',
   },
   {
     expectativa: getImagePath('img5.jpg'),
     realidade: getImagePath('img6.jpg'),
-    caption: '📸 Foto Perfeita vs 🤪 Nos Bastidores',
+    caption: '📸 Foto Instagram vs 🤪 Foto Real',
   },
 ];
 
