@@ -91,7 +91,9 @@ export function DicionarioSection() {
             >
               {/* Vídeo de fundo */}
               <video
-                ref={(el) => (videoRefs.current[index] = el)}
+                ref={(el) => {
+                  if (el) videoRefs.current[index] = el;
+                }}
                 src={item.video}
                 loop
                 muted
